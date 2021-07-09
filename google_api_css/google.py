@@ -17,7 +17,7 @@ def download_url(url, output_path):
 
 
 with open('google_api.css', 'r') as f:
-    text = f.read();
+    text = f.read()
     for x in re.finditer(r'https://.+?\.woff2', text):
         url = x.group()
         file_name = url.split('/')[-1]
