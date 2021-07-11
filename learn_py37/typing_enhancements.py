@@ -12,8 +12,11 @@ def greet(name: print("Now!")):
     print(f"Hello {name}")
 
 
-print(eval(greet.__annotations__["name"]))
-print(greet.__annotations__)
+print('greet.__annotations__["name"] => ', greet.__annotations__["name"])
+print('eval(greet.__annotations__["name"]) => ', eval(greet.__annotations__["name"]))
+print('greet.__annotations__ => ', greet.__annotations__)
+# print(greet.__annotations__)
 
 import typing
+
 print(typing.get_type_hints(greet))

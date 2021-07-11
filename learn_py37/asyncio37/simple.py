@@ -17,5 +17,5 @@ async def main():
     tasks = [foo(), bar()]
     await asyncio.gather(*tasks)
 
-
-asyncio.run(main())
+if __name__ == '__main__':
+    asyncio.run(main())

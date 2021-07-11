@@ -1,6 +1,8 @@
-import time
-import urllib.request
 import asyncio
+import sys
+import time
+import urllib.request as request
+
 import aiohttp
 
 URL = 'https://api.github.com/events'
@@ -10,7 +12,11 @@ MAX_CLIENTS = 3
 def fetch_sync(pid):
     print('Fetch sync process {} started'.format(pid))
     start = time.time()
-    response = urllib.request.urlopen(URL)
+    response = request.urlopen(URL)
+    # proxy_handler = request.ProxyHandler({'http': PROXY_HOST})
+    # opener = request.build_opener(proxy_handler)
+    # req = opener.open(URL)
+    # response = request.urlopen(req)
     datetime = response.getheader('Date')
 
     print('Process {}: {}, took: {:.2f} seconds'.format(
@@ -21,7 +27,7 @@ def fetch_sync(pid):
 
 async def aiohttp_get(url):
     """Nothing to see here, carry on ..."""
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(trust_env=True) as session:
         async with session.get(url) as response:
             return response
 
@@ -54,8 +60,15 @@ async def asynchronous():
     print("Process took: {:.2f} seconds".format(time.time() - start))
 
 
-print('Synchronous:')
-synchronous()
+if __name__ == '__main__':
+    print('Synchronous:')
+    synchronous()
 
-print('Asynchronous:')
-asyncio.run(asynchronous())
+    print('Asynchronous:')
+    if (sys.platform.startswith('win')
+            and sys.version_info[0] == 3
+            and sys.version_info[1] >= 8):
+        policy = asyncio.WindowsSelectorEventLoopPolicy()
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
+    asyncio.run(asynchronous())

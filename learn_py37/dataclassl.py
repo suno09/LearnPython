@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 class Country:
     name: str
     population: int
+    # not print & not consider in comparaison
     area: float = field(repr=False, compare=False)
     coastline: float = 0
 
@@ -19,4 +20,6 @@ if __name__ == '__main__':
     norway2 = Country("Norway", 5320045, 0, 58133)
     usa = Country("United States", 326625791, 9833517, 19924)
     nepal = Country("Nepal", 29384297, 147181)
+    print(norway1)
+    print(norway2)
     print(norway1 == norway2)  # compare between each attribute
